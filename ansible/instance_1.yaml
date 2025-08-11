@@ -1,0 +1,11 @@
+- name: Customize content
+  hosts: EC2-Instance-1
+  become: true
+  tasks:
+    - name: Create index.html for instance 1
+      copy:
+        content: "Hello from Instance 1"
+        dest: /home/ubuntu/nginx/index.html
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
