@@ -45,6 +45,7 @@ resource "aws_eip_association" "eip_association" {
 }
 
 resource "local_file" "ansible_inventory" {
+  depends_on = [ aws_instance.ec2_instance ]
   filename = "${path.root}/ansible/inventory.ini"
   content = templatefile("${var.template_file}", {
     instances = [
