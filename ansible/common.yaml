@@ -1,0 +1,73 @@
+---
+- name: Install Docker and dependencies
+  hosts: all
+  become: true
+  tasks:
+    - name: Update apt package index
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install prerequisites
+      apt:
+        name:
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        state: present
+
+    - name: Add Docker's official GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        state: present
+        update_cache: yes
+
+    - name: Install Docker Engine
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        state: present
+
+    - name: Add user to docker group
+      user:
+        name: ubuntu
+        groups: docker
+        append: yes
+
+    - name: Start and enable Docker
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+- name: Deploy Nginx container
+  hosts: all
+  become: true
+  tasks:
+    - name: Create nginx directory
+      file:
+        path: /home/ubuntu/nginx
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+        mode: '0755'
+
+    - name: Run Nginx container
+      docker_container:
+        name: nginx
+        image: nginx:latest
+        ports:
+          - "80:80"
+        volumes:
+          - "/home/ubuntu/nginx:/usr/share/nginx/html"
+        restart_policy: unless-stopped
+        state: started
+
