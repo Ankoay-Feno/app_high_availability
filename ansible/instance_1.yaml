@@ -1,10 +1,10 @@
 - name: Customize content
-  hosts: EC2-Instance-1
+  hosts: EC2-Instance-2
   become: true
   tasks:
-    - name: Create index.html for instance 1
+    - name: Create index.html for instance 2
       copy:
-        content: "Hello from Instance 1"
+        content: "Hello from Instance 2"
         dest: /home/ubuntu/nginx/index.html
         owner: ubuntu
         group: ubuntu

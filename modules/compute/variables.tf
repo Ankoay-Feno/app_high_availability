@@ -3,11 +3,6 @@ variable "subnet_1" {
   type        = string  
 }
 
-variable "subnet_2" {
-  description = "Subnet 2 for EC2 instances"
-  type        = string  
-}
-
 variable "security_group" {
   description = "Security group ID for EC2 instances"
   type        = string

@@ -17,19 +17,12 @@ module "compute" {
 
  key_path = "${path.root}/keys/key.pub"
  subnet_1 = module.networking.subnet_1
- subnet_2 = module.networking.subnet_2
  security_group = module.security.security_group_id
  template_file = "${path.root}/ansible/inventory.tpl"
 }
 
-module "load_balancer" {
-  source = "../../modules/loadbalancer"
+module "container_registry" {
+  source = "../../modules/ecr"
 
-  security_group = module.security.security_group_id
-  subnet_1 = module.networking.subnet_1
-  subnet_2 = module.networking.subnet_2
-  vpc_id = module.networking.vpc_id
-  ec2_instance_1_id = module.compute.ec2_instance_1_id
-  ec2_instance_2_id = module.compute.ec2_instance_2_id
+  repository_name = "strapi-repo"
 }
-

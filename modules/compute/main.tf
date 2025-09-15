@@ -8,10 +8,6 @@ locals {
     "instance_1" = { 
       name = "EC2-Instance-1", 
       subnet = var.subnet_1 
-    },
-    "instance_2" = { 
-      name = "EC2-Instance-2", 
-      subnet = var.subnet_2 
     }
   }
 }
@@ -26,12 +22,18 @@ resource "aws_eip" "instance_eip" {
 resource "aws_instance" "ec2_instance" {
   for_each = local.ec2_instances
 
-  ami           = "ami-044415bb13eee2391"  
-  instance_type = "t2.nano"
+  ami           = "ami-02d7ced41dff52ebc"  
+  instance_type = "t3.medium"
   key_name      = aws_key_pair.key_pair.key_name
   subnet_id     = each.value.subnet
   vpc_security_group_ids = [var.security_group]
   
+  root_block_device {
+    volume_size = 30
+    volume_type = "gp3"
+    delete_on_termination = true
+  }
+
   tags = {
     Name = each.value.name
   }

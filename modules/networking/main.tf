@@ -15,8 +15,7 @@ resource "aws_internet_gateway" "igw" {
 
 locals {
   public_subnets = {
-    "a" = { az = "eu-west-2a", cidr = "10.0.1.0/24" }
-    "b" = { az = "eu-west-2b", cidr = "10.0.2.0/24" }
+    "a" = { az = "eu-west-3a", cidr = "10.0.1.0/24" }
   }
 }
 

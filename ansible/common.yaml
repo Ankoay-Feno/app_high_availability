@@ -47,27 +47,3 @@
         name: docker
         state: started
         enabled: yes
-
-- name: Deploy Nginx container
-  hosts: all
-  become: true
-  tasks:
-    - name: Create nginx directory
-      file:
-        path: /home/ubuntu/nginx
-        state: directory
-        owner: ubuntu
-        group: ubuntu
-        mode: '0755'
-
-    - name: Run Nginx container
-      docker_container:
-        name: nginx
-        image: nginx:latest
-        ports:
-          - "80:80"
-        volumes:
-          - "/home/ubuntu/nginx:/usr/share/nginx/html"
-        restart_policy: unless-stopped
-        state: started
-

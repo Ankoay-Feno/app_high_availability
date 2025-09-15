@@ -9,7 +9,3 @@ locals {
 output "subnet_1" {
   value = local.public_subnet_ids_json["a"]
 }
-
-output "subnet_2" {
-  value = local.public_subnet_ids_json["b"]
-}
